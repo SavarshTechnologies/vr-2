@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>WebXR Cinema</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root { --gold:#e8c27a; --ink:#f4efe6; }
+  html,body { margin:0; height:100%; background:#020204; overflow:hidden; font-family:Georgia,'Times New Roman',serif; color:var(--ink); }
+  canvas { display:block; touch-action:none; }
+  #overlay { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; text-align:center;
+    background:radial-gradient(ellipse at center, rgba(2,2,4,.55), rgba(2,2,4,.92)); z-index:5; transition:opacity .6s; }
+  #overlay.hidden { opacity:0; pointer-events:none; }
+  #overlay::before,#overlay::after { content:""; position:absolute; left:0; right:0; height:9vh; background:#000; }
+  #overlay::before { top:0 } #overlay::after { bottom:0 }
+  h1 { margin:0; font-weight:400; letter-spacing:.5em; font-size:clamp(22px,5vw,44px); text-indent:.5em; }
+  p.sub { margin:0; letter-spacing:.25em; font-size:12px; text-transform:uppercase; color:var(--gold); }
+  button.go { background:transparent; color:var(--ink); border:1px solid var(--gold); padding:14px 34px; letter-spacing:.3em; font:inherit; font-size:13px; text-transform:uppercase; cursor:pointer; transition:.25s; }
+  button.go:hover { background:var(--gold); color:#000; }
+  #hint { position:fixed; left:50%; bottom:12px; transform:translateX(-50%); font-size:11px; letter-spacing:.15em; color:#9a9486; z-index:4; white-space:nowrap; opacity:.8; }
+  #err { color:#f08a7a; font-size:13px; max-width:80vw; }
+  @media (max-width:700px){ #hint{ display:none } }
+</style>
+</head>
+<body>
+<!-- hidden video element used as texture source -->
+<video id="video" loop muted playsinline webkit-playsinline preload="auto" crossorigin="anonymous"
+       style="position:fixed;left:-9999px;top:0;width:2px;height:2px"></video>
+
+<div id="overlay">
+  <p class="sub">A private screening</p>
+  <h1>CINEMA</h1>
+  <button class="go" id="start">&#9654; &nbsp;Start screening</button>
+  <p class="sub" style="color:#8b8577">On Meta Quest, use the "Enter VR" button below</p>
+  <div id="err"></div>
+</div>
+<div id="hint">DRAG look &middot; SCROLL zoom &middot; SPACE play/pause &middot; &larr; &rarr; seek &middot; N next &middot; B back &middot; F fullscreen &middot; R reset view</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="main.js"></script>
+</body>
+</html>
